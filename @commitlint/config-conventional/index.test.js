@@ -1,8 +1,21 @@
+import path from 'path';
+import {pathToFileURL} from 'url';
+
 import lint from '@commitlint/lint';
-import {rules, parserPreset} from '.';
+
+import config from './index.js';
+
+const {rules, parserPreset} = config;
+
+const dynamicImport = async (id) => {
+	const imported = await import(
+		path.isAbsolute(id) ? pathToFileURL(id).toString() : id
+	);
+	return ('default' in imported && imported.default) || imported;
+};
 
 const commitLint = async (message) => {
-	const preset = await require(parserPreset)();
+	const preset = (await dynamicImport(parserPreset))();
 	return lint(message, rules, {...preset});
 };
 

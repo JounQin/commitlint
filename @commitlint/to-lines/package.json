@@ -1,5 +1,6 @@
 {
   "name": "@commitlint/to-lines",
+  "type": "module",
   "version": "18.4.4",
   "description": "Lint your commit messages",
   "main": "lib/index.js",
